@@ -1,4 +1,4 @@
-version: '2.3'
+version: "2.3"
 
 services:
   conductor-server:
@@ -13,18 +13,16 @@ services:
       - internal
     ports:
       - 8080:8080
+      - 8090:8090
     healthcheck:
-      test: [ "CMD", "curl","-I" ,"-XGET", "http://localhost:8080/health" ]
+      test: ["CMD", "curl", "-I", "-XGET", "http://localhost:8080/health"]
       interval: 60s
       timeout: 30s
       retries: 12
     links:
-      - elasticsearch:es
       - redis:rs
       - postgres:postgresdb
     depends_on:
-      elasticsearch:
-        condition: service_healthy
       redis:
         condition: service_healthy
       postgres:
@@ -66,31 +64,7 @@ services:
     ports:
       - 6379:6379
     healthcheck:
-      test: [ "CMD", "redis-cli","ping" ]
-
-  elasticsearch:
-    image: elasticsearch:6.8.15
-    container_name: elasticsearch
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx1024m"
-      - transport.host=0.0.0.0
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    networks:
-      - internal
-    ports:
-      - 9200:9200
-      - 9300:9300
-    healthcheck:
-      test: wget http://localhost:9200/ -O /dev/null
-      interval: 5s
-      timeout: 5s
-      retries: 12
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1k"
-        max-file: "3"
+      test: ["CMD", "redis-cli", "ping"]
 
 volumes:
   pgdata-conductor:
