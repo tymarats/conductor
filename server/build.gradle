@@ -45,6 +45,7 @@ dependencies {
 
     runtimeOnly "org.glassfish.jaxb:jaxb-runtime:${revJAXB}"
     runtimeOnly group: 'com.netflix.conductor', name: 'conductor-postgres-persistence', version: '3.13.7'
+    runtimeOnly group: 'com.netflix.conductor', name: 'conductor-postgres-external-storage', version: '3.13.7'
 
     testImplementation project(':conductor-rest')
     testImplementation project(':conductor-common')
